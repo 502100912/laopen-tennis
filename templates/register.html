@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Register - LaOpen</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <div class="form-container">
+            <h1 class="form-title">Register</h1>
+            
+            <!-- 显示Flash消息 -->
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    {% for category, message in messages %}
+                        <div class="flash-message flash-{{ category }}">{{ message }}</div>
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
+            
+            <form method="POST" class="pixel-form">
+                {{ form.hidden_tag() }}
+                
+                <div class="form-group">
+                    {{ form.nickname.label(class="form-label") }}
+                    {{ form.nickname(class="pixel-input") }}
+                    {% if form.nickname.errors %}
+                        {% for error in form.nickname.errors %}
+                            <div class="form-error">{{ error }}</div>
+                        {% endfor %}
+                    {% endif %}
+                </div>
+                
+                <div class="form-group">
+                    {{ form.phone.label(class="form-label") }}
+                    {{ form.phone(class="pixel-input", placeholder="Enter 11-digit phone number") }}
+                    {% if form.phone.errors %}
+                        {% for error in form.phone.errors %}
+                            <div class="form-error">{{ error }}</div>
+                        {% endfor %}
+                    {% endif %}
+                </div>
+                
+                <div class="form-group">
+                    {{ form.password.label(class="form-label") }}
+                    {{ form.password(class="pixel-input", placeholder="6-20 character password") }}
+                    {% if form.password.errors %}
+                        {% for error in form.password.errors %}
+                            <div class="form-error">{{ error }}</div>
+                        {% endfor %}
+                    {% endif %}
+                </div>
+                
+                <div class="form-actions">
+                    {{ form.submit(class="pixel-btn pixel-btn-primary") }}
+                    <a href="/" class="pixel-btn pixel-btn-secondary">Back Home</a>
+                </div>
+                
+                <div class="form-links">
+                    <p>Already have account? <a href="/login" class="link-text">Login now</a></p>
+                </div>
+            </form>
+        </div>
+        
+        <div class="background-grid"></div>
+        <div class="floating-pixels">
+            <div class="pixel"></div>
+            <div class="pixel"></div>
+            <div class="pixel"></div>
+        </div>
+        <div class="floating-symbols">
+            <div class="cool-symbol">⚡</div>
+            <div class="cool-symbol">🔥</div>
+        </div>
+    </div>
+    <script src="/static/js/main.js"></script>
+</body>
+</html>

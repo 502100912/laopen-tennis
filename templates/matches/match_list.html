@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>🏆 Match List</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+    <link rel="stylesheet" href="/static/css/mobile.css">
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+</head>
+<body class="mobile-body">
+    <div class="mobile-container">
+        <!-- Flash Messages -->
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                <div class="mobile-flash-messages">
+                    {% for category, message in messages %}
+                        <div class="mobile-flash-message mobile-flash-{{ category }}">
+                            {{ message }}
+                        </div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        {% endwith %}
+
+        <!-- 头部区域 -->
+        <header class="mobile-header">
+            <div class="mobile-logo">
+                <h1 class="mobile-title">🏆 Matches</h1>
+                <p class="mobile-subtitle">Tennis Events</p>
+            </div>
+        </header>
+
+        <!-- 主要内容区域 -->
+        <main class="mobile-main">
+            <!-- 快速操作按钮已移除 -->
+
+            <!-- 用户参与的赛事 -->
+            {% if user_matches %}
+            <div class="match-section">
+                <h2 class="section-title">📝 My Matches</h2>
+                {% for match in user_matches %}
+                <div class="match-card user-match-card">
+                    <div class="match-header">
+                        <h3 class="match-name">{{ match.name }}</h3>
+                        <span class="status-badge status-{{ match.status }}">{{ match.status.title() }}</span>
+                    </div>
+                    <div class="match-info">
+                        <div class="match-detail">📍 {{ match.location }}</div>
+                        <div class="match-detail">📅 {{ match.start_datetime.strftime('%Y-%m-%d %H:%M') }}</div>
+                        <div class="match-detail">👥 {{ match.participant_count }}/{{ match.max_participants }}</div>
+                    </div>
+                    <div class="match-actions">
+                        <a href="{{ url_for('match_mgmt.match_detail', match_id=match.id) }}" 
+                           class="action-btn details-btn">View Details</a>
+                        {% if match.status in ['preparing', 'registering'] %}
+                        <form method="POST" action="{{ url_for('match_mgmt.leave_match', match_id=match.id) }}" 
+                              class="inline-form" onsubmit="return confirm('Are you sure you want to leave this match?')">
+                            <button type="submit" class="action-btn leave-btn">Leave</button>
+                        </form>
+                        {% endif %}
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            {% endif %}
+
+            <!-- 正在报名的赛事 -->
+            {% if registering_matches %}
+            <div class="match-section">
+                <h2 class="section-title">🔥 Open Registration</h2>
+                {% for match in registering_matches %}
+                <div class="match-card registering-card">
+                    <div class="match-header">
+                        <h3 class="match-name">{{ match.name }}</h3>
+                        <span class="status-badge status-registering">Open</span>
+                    </div>
+                    <div class="match-info">
+                        <div class="match-detail">📍 {{ match.location }}</div>
+                        <div class="match-detail">📅 {{ match.start_datetime.strftime('%Y-%m-%d %H:%M') }}</div>
+                        <div class="match-detail">👥 {{ match.participant_count }}/{{ match.max_participants }}</div>
+                        <div class="match-detail">🎾 {{ match.match_type.title() }}</div>
+                    </div>
+                    {% if match.description %}
+                    <div class="match-description">{{ match.description[:100] }}{% if match.description|length > 100 %}...{% endif %}</div>
+                    {% endif %}
+                    <div class="match-actions">
+                        <a href="{{ url_for('match_mgmt.match_detail', match_id=match.id) }}" 
+                           class="action-btn details-btn">View Details</a>
+                        {% if not match.is_participant(current_user) %}
+                            {% if match.can_register %}
+                            <a href="{{ url_for('match_mgmt.match_detail', match_id=match.id) }}" 
+                               class="action-btn join-btn">Join Match</a>
+                            {% else %}
+                            <span class="action-btn disabled-btn">Full</span>
+                            {% endif %}
+                        {% else %}
+                        <span class="action-btn joined-btn">Joined</span>
+                        {% endif %}
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            {% endif %}
+
+            <!-- 即将开始的赛事 -->
+            {% if upcoming_matches %}
+            <div class="match-section">
+                <h2 class="section-title">⏳ Upcoming</h2>
+                {% for match in upcoming_matches %}
+                <div class="match-card upcoming-card">
+                    <div class="match-header">
+                        <h3 class="match-name">{{ match.name }}</h3>
+                        <span class="status-badge status-preparing">Preparing</span>
+                    </div>
+                    <div class="match-info">
+                        <div class="match-detail">📍 {{ match.location }}</div>
+                        <div class="match-detail">📅 {{ match.start_datetime.strftime('%Y-%m-%d %H:%M') }}</div>
+                        <div class="match-detail">👥 {{ match.participant_count }}/{{ match.max_participants }}</div>
+                        <div class="match-detail">🎾 {{ match.match_type.title() }}</div>
+                    </div>
+                    <div class="match-actions">
+                        <a href="{{ url_for('match_mgmt.match_detail', match_id=match.id) }}" 
+                           class="action-btn details-btn">View Details</a>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            {% endif %}
+
+            <!-- 正在进行的赛事 -->
+            {% if ongoing_matches %}
+            <div class="match-section">
+                <h2 class="section-title">⚡ Live Matches</h2>
+                {% for match in ongoing_matches %}
+                <div class="match-card ongoing-card">
+                    <div class="match-header">
+                        <h3 class="match-name">{{ match.name }}</h3>
+                        <span class="status-badge status-ongoing">Live</span>
+                    </div>
+                    <div class="match-info">
+                        <div class="match-detail">📍 {{ match.location }}</div>
+                        <div class="match-detail">📅 {{ match.start_datetime.strftime('%Y-%m-%d %H:%M') }}</div>
+                        <div class="match-detail">👥 {{ match.participant_count }} players</div>
+                    </div>
+                    <div class="match-actions">
+                        <a href="{{ url_for('match_mgmt.match_detail', match_id=match.id) }}" 
+                           class="action-btn details-btn">View Results</a>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            {% endif %}
+
+            <!-- 空状态 -->
+            {% if not (user_matches or registering_matches or upcoming_matches or ongoing_matches) %}
+            <div class="empty-state">
+                <div class="empty-icon">🎾</div>
+                <h3 class="empty-title">No matches available</h3>
+                <p class="empty-desc">Contact your tennis club admin to join matches!</p>
+            </div>
+            {% endif %}
+        </main>
+
+        <!-- 底部导航 -->
+        <footer class="mobile-footer">
+            <div class="footer-nav">
+                <a href="{{ url_for('tennis.dashboard') }}" class="footer-btn back-btn">
+                    <span class="btn-icon">🏠</span>
+                    <span>Dashboard</span>
+                </a>
+                <a href="{{ url_for('main.index') }}" class="footer-btn home-btn">
+                    <span class="btn-icon">🎾</span>
+                    <span>Home</span>
+                </a>
+            </div>
+            <div class="footer-text">Match Management</div>
+        </footer>
+
+        <!-- 背景装饰 -->
+        <div class="mobile-bg-effects">
+            <div class="bg-pixel bg-pixel-1">🏆</div>
+            <div class="bg-pixel bg-pixel-2">⚡</div>
+            <div class="bg-pixel bg-pixel-3">🎾</div>
+        </div>
+    </div>
+    
+    <script src="/static/js/mobile.js"></script>
+</body>
+</html>

@@ -1,0 +1,1394 @@
+/* 移动端专用样式 */
+
+/* 重置移动端body样式 */
+.mobile-body {
+    background: linear-gradient(180deg, #1a1a2e 0%, #16213e 50%, #0f0f1e 100%);
+    min-height: 100vh;
+    overflow-x: hidden;
+    overflow-y: auto;
+    padding: 0;
+    margin: 0;
+    display: block; /* 覆盖桌面版的flex */
+    align-items: initial;
+    justify-content: initial;
+}
+
+/* 主容器 */
+.mobile-container {
+    max-width: 100vw;
+    min-height: 100vh;
+    padding: 20px 16px;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    z-index: 10;
+}
+
+/* Flash消息移动端样式 */
+.mobile-flash-messages {
+    position: fixed;
+    top: 20px;
+    left: 16px;
+    right: 16px;
+    z-index: 1000;
+}
+
+.mobile-flash-message {
+    background: rgba(0, 0, 0, 0.9);
+    color: #ff9f40;
+    padding: 12px 16px;
+    border-radius: 8px;
+    border: 2px solid #ff9f40;
+    margin-bottom: 8px;
+    font-size: 11px;
+    text-align: center;
+    animation: mobileFlashIn 0.3s ease-out;
+}
+
+.mobile-flash-success { border-color: #4CAF50; color: #4CAF50; }
+.mobile-flash-error { border-color: #f44336; color: #f44336; }
+.mobile-flash-info { border-color: #2196F3; color: #2196F3; }
+
+/* 头部区域 */
+.mobile-header {
+    text-align: center;
+    margin: 20px 0 40px 0;
+    position: relative;
+}
+
+.mobile-logo {
+    background: rgba(255, 255, 255, 0.95);
+    border: 3px solid #ff9f40;
+    border-radius: 12px;
+    padding: 24px 20px;
+    box-shadow: 0 8px 24px rgba(255, 159, 64, 0.3);
+    position: relative;
+}
+
+.mobile-title {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 24px;
+    background: linear-gradient(45deg, #ff9f40, #87ceeb, #ffd700);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 8px;
+    line-height: 1.3;
+}
+
+.mobile-subtitle {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 10px;
+    color: #666;
+    margin: 0;
+}
+
+/* 玩家档案卡片 - 紧凑统一布局 */
+.player-profile-card {
+    background: rgba(255, 255, 255, 0.95);
+    border: 3px solid #ff9f40;
+    border-radius: 16px;
+    padding: 20px;
+    box-shadow: 0 8px 24px rgba(255, 159, 64, 0.3);
+    position: relative;
+}
+
+.player-info {
+    text-align: center;
+    margin-bottom: 16px;
+    padding-bottom: 12px;
+    border-bottom: 2px solid rgba(255, 159, 64, 0.2);
+}
+
+.player-name {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 20px;
+    background: linear-gradient(45deg, #ff9f40, #87ceeb, #ffd700);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin: 0 0 8px 0;
+    line-height: 1.3;
+}
+
+.player-title {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 10px;
+    color: #666;
+    margin: 0;
+}
+
+/* 主要内容区域 */
+.mobile-main {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+}
+
+/* 功能介绍卡片 */
+.mobile-feature-card {
+    background: rgba(255, 255, 255, 0.95);
+    border: 2px solid #ff9f40;
+    border-radius: 16px;
+    padding: 32px 24px;
+    text-align: center;
+    box-shadow: 0 4px 16px rgba(255, 159, 64, 0.2);
+    position: relative;
+}
+
+/* 可点击区域样式 */
+.clickable-area {
+    cursor: pointer;
+    transition: all 0.2s ease;
+    user-select: none;
+}
+
+.clickable-area:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(255, 159, 64, 0.3);
+}
+
+/* 快速访问提示 */
+.quick-access-hint {
+    position: absolute;
+    bottom: 12px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-family: 'Press Start 2P', monospace;
+    font-size: 8px;
+    color: #ff9f40;
+    background: rgba(255, 159, 64, 0.1);
+    padding: 4px 8px;
+    border-radius: 4px;
+    opacity: 0.7;
+    animation: tapPulse 2s ease-in-out infinite;
+}
+
+@keyframes tapPulse {
+    0%, 100% { opacity: 0.5; }
+    50% { opacity: 0.9; }
+}
+
+.feature-icon {
+    font-size: 48px;
+    margin-bottom: 16px;
+    animation: iconFloat 2s ease-in-out infinite;
+}
+
+.feature-title {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 16px;
+    color: #333;
+    margin-bottom: 16px;
+    line-height: 1.4;
+}
+
+.feature-desc {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 10px;
+    color: #666;
+    line-height: 1.5;
+    margin: 0;
+}
+
+/* 移动端按钮区域 */
+.mobile-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.mobile-btn {
+    display: flex;
+    align-items: center;
+    padding: 20px 24px;
+    border-radius: 12px;
+    text-decoration: none;
+    border: 3px solid;
+    font-family: 'Press Start 2P', monospace;
+    transition: all 0.3s ease;
+    position: relative;
+    min-height: 64px; /* 拇指友好的最小高度 */
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.mobile-btn-primary {
+    background: linear-gradient(45deg, #ff9f40, #ffb366);
+    border-color: #ff8c00;
+    color: #fff;
+}
+
+.mobile-btn-primary:active {
+    background: linear-gradient(45deg, #ff8c00, #ff9f40);
+    transform: translateY(2px);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+.mobile-btn-secondary {
+    background: rgba(255, 255, 255, 0.95);
+    border-color: #87ceeb;
+    color: #333;
+}
+
+.mobile-btn-secondary:active {
+    background: rgba(135, 206, 235, 0.1);
+    transform: translateY(2px);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+.btn-icon {
+    font-size: 24px;
+    margin-right: 16px;
+    flex-shrink: 0;
+}
+
+.btn-text {
+    font-size: 14px;
+    flex: 1;
+    text-align: left;
+}
+
+.btn-subtitle {
+    font-size: 8px;
+    opacity: 0.7;
+    position: absolute;
+    bottom: 8px;
+    left: 64px;
+}
+
+/* 功能预览 */
+.mobile-preview {
+    display: flex;
+    justify-content: space-around;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 159, 64, 0.3);
+    border-radius: 12px;
+    padding: 20px 8px;
+    margin-top: 20px;
+}
+
+.preview-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    flex: 1;
+}
+
+.preview-icon {
+    font-size: 24px;
+    animation: previewBounce 2s ease-in-out infinite;
+}
+
+.preview-item span {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 8px;
+    color: #ff9f40;
+    text-align: center;
+}
+
+/* 底部信息 */
+.mobile-footer {
+    text-align: center;
+    margin-top: 40px;
+    padding: 20px 0;
+}
+
+.footer-text {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 12px;
+    color: rgba(255, 159, 64, 0.9);
+    background: rgba(0, 0, 0, 0.3);
+    padding: 8px 16px;
+    border-radius: 8px;
+    margin-top: 20px;
+}
+
+/* 背景装饰效果 */
+.mobile-bg-effects {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    pointer-events: none;
+    z-index: 1;
+    overflow: hidden;
+}
+
+.bg-pixel {
+    position: absolute;
+    font-size: 20px;
+    opacity: 0.1;
+    animation: bgFloat 8s ease-in-out infinite;
+}
+
+.bg-pixel-1 {
+    top: 20%;
+    right: 10%;
+    animation-delay: 0s;
+}
+
+.bg-pixel-2 {
+    top: 60%;
+    left: 5%;
+    animation-delay: 2s;
+}
+
+.bg-pixel-3 {
+    top: 80%;
+    right: 20%;
+    animation-delay: 4s;
+}
+
+/* 动画定义 */
+@keyframes mobileFlashIn {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes iconFloat {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-8px); }
+}
+
+@keyframes previewBounce {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.1); }
+}
+
+@keyframes bgFloat {
+    0%, 100% { 
+        transform: translateY(0) rotate(0deg);
+        opacity: 0.05;
+    }
+    25% {
+        transform: translateY(-10px) rotate(90deg);
+        opacity: 0.1;
+    }
+    50% {
+        transform: translateY(0) rotate(180deg);
+        opacity: 0.05;
+    }
+    75% {
+        transform: translateY(-5px) rotate(270deg);
+        opacity: 0.08;
+    }
+}
+
+/* 响应式调整 */
+@media (max-width: 480px) {
+    .mobile-container {
+        padding: 16px 12px;
+    }
+    
+    .mobile-title {
+        font-size: 20px;
+    }
+    
+    .feature-title {
+        font-size: 14px;
+    }
+    
+    .mobile-btn {
+        padding: 16px 20px;
+        min-height: 56px;
+    }
+    
+    .btn-text {
+        font-size: 12px;
+    }
+}
+
+/* 超小屏幕适配 */
+@media (max-width: 360px) {
+    .mobile-title {
+        font-size: 18px;
+    }
+    
+    .feature-icon {
+        font-size: 40px;
+    }
+    
+    .feature-title {
+        font-size: 12px;
+    }
+    
+    .feature-desc {
+        font-size: 9px;
+    }
+}
+
+/* =================================
+   Tennis Dashboard 专用样式
+   ================================= */
+
+/* 用户统计网格 - 紧凑版本 */
+.player-stats-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 8px;
+}
+
+.stat-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 12px 8px;
+    background: rgba(255, 159, 64, 0.05);
+    border: 1px solid rgba(255, 159, 64, 0.2);
+    border-radius: 8px;
+    transition: transform 0.2s ease;
+}
+
+.stat-item:active {
+    transform: scale(0.95);
+}
+
+.rank-stat { border-color: rgba(255, 215, 0, 0.5); }
+.rating-stat { border-color: rgba(255, 107, 107, 0.5); }
+.record-stat { border-color: rgba(78, 205, 196, 0.5); }
+.winrate-stat { border-color: rgba(149, 225, 211, 0.5); }
+
+.stat-item .stat-icon {
+    font-size: 16px;
+    margin-bottom: 4px;
+}
+
+.stat-item .stat-value {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 12px;
+    color: #333;
+    font-weight: bold;
+    margin-bottom: 2px;
+}
+
+.stat-item .stat-label {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 7px;
+    color: #666;
+    text-transform: uppercase;
+}
+
+/* 保持旧版本stat-card样式以防其他地方使用 */
+.stat-card {
+    background: rgba(255, 255, 255, 0.9);
+    border: 2px solid;
+    border-radius: 12px;
+    padding: 16px 12px;
+    text-align: center;
+    transition: transform 0.2s ease;
+}
+
+.stat-card:active {
+    transform: scale(0.95);
+}
+
+.rank-card { border-color: #FFD700; }
+.rating-card { border-color: #FF6B6B; }
+.record-card { border-color: #4ECDC4; }
+.winrate-card { border-color: #95E1D3; }
+
+.stat-card .stat-icon {
+    font-size: 20px;
+    margin-bottom: 8px;
+}
+
+.stat-card .stat-value {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 14px;
+    color: #333;
+    font-weight: bold;
+    margin-bottom: 4px;
+}
+
+.stat-card .stat-label {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 8px;
+    color: #666;
+    text-transform: uppercase;
+}
+
+/* 下一场比赛卡片特殊样式 */
+.next-match-card {
+    position: relative;
+    background: linear-gradient(135deg, rgba(255, 215, 0, 0.1), rgba(255, 159, 64, 0.1));
+    border-color: #FFD700;
+    box-shadow: 0 8px 24px rgba(255, 215, 0, 0.3);
+}
+
+/* 比赛信息样式 */
+.match-info {
+    margin-top: 16px;
+}
+
+.opponent-info {
+    margin-bottom: 16px;
+}
+
+.vs-label {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 10px;
+    color: #ff9f40;
+    margin-right: 8px;
+}
+
+.opponent-name {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 16px;
+    color: #333;
+    font-weight: bold;
+}
+
+/* 倒计时样式 */
+.match-countdown {
+    display: flex;
+    justify-content: center;
+    gap: 16px;
+    margin: 20px 0;
+    padding: 16px;
+    background: rgba(255, 215, 0, 0.1);
+    border-radius: 12px;
+    border: 1px solid rgba(255, 215, 0, 0.3);
+}
+
+.countdown-item {
+    text-align: center;
+    flex: 1;
+}
+
+.countdown-value {
+    display: block;
+    font-family: 'Press Start 2P', monospace;
+    font-size: 18px;
+    color: #ff9f40;
+    font-weight: bold;
+}
+
+.countdown-label {
+    display: block;
+    font-family: 'Press Start 2P', monospace;
+    font-size: 8px;
+    color: #666;
+    margin-top: 4px;
+}
+
+.countdown-finished {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 14px;
+    color: #ff9f40;
+    text-align: center;
+    padding: 16px;
+    animation: pulse 1s ease-in-out infinite;
+}
+
+@keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.7; }
+}
+
+/* 比赛详细信息 */
+.match-details {
+    margin-top: 16px;
+    padding-top: 16px;
+    border-top: 1px solid rgba(255, 159, 64, 0.3);
+}
+
+.match-time, .match-court {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 10px;
+    color: #666;
+    margin: 4px 0;
+}
+
+/* 功能按钮网格 */
+.action-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-bottom: 16px;
+}
+
+.mobile-btn-tertiary {
+    background: rgba(255, 255, 255, 0.8);
+    border-color: #ddd;
+    color: #666;
+}
+
+.mobile-btn-tertiary:active {
+    background: rgba(240, 240, 240, 0.9);
+    transform: translateY(2px);
+}
+
+/* 管理员标识 */
+.admin-btn {
+    position: relative;
+    background: linear-gradient(45deg, #FFD700, #FFA500);
+    border-color: #FF8C00;
+    color: #fff;
+}
+
+.admin-crown {
+    position: absolute;
+    top: -8px;
+    right: -8px;
+    font-size: 16px;
+    background: rgba(255, 215, 0, 0.9);
+    border-radius: 50%;
+    padding: 4px;
+    border: 2px solid #fff;
+}
+
+/* 最近比赛结果 */
+.recent-matches {
+    margin-top: 32px;
+}
+
+.section-title {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 12px;
+    color: #ff9f40;
+    text-align: center;
+    margin-bottom: 16px;
+}
+
+.match-result-card {
+    background: rgba(255, 255, 255, 0.9);
+    border: 2px solid #e0e0e0;
+    border-radius: 12px;
+    padding: 16px;
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.match-opponent {
+    flex: 1;
+}
+
+.vs-text {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 8px;
+    color: #999;
+    margin-right: 8px;
+}
+
+.result-badge {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 10px;
+    padding: 4px 8px;
+    border-radius: 6px;
+    margin: 0 8px;
+}
+
+.result-badge.win {
+    background: rgba(76, 175, 80, 0.2);
+    color: #4CAF50;
+    border: 1px solid #4CAF50;
+}
+
+.result-badge.loss {
+    background: rgba(244, 67, 54, 0.2);
+    color: #f44336;
+    border: 1px solid #f44336;
+}
+
+.result-badge.draw {
+    background: rgba(158, 158, 158, 0.2);
+    color: #9e9e9e;
+    border: 1px solid #9e9e9e;
+}
+
+.match-date {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 8px;
+    color: #999;
+}
+
+/* 底部导航增强 */
+.footer-nav {
+    display: flex;
+    justify-content: center;
+    gap: 32px;
+    margin-bottom: 16px;
+}
+
+.footer-btn {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 20px;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 159, 64, 0.3);
+    border-radius: 8px;
+    text-decoration: none;
+    color: #ff9f40;
+    font-family: 'Press Start 2P', monospace;
+    font-size: 10px;
+    transition: all 0.2s ease;
+}
+
+.footer-btn:hover, .footer-btn:active {
+    background: rgba(255, 159, 64, 0.2);
+    border-color: #ff9f40;
+}
+
+.logout-btn { border-color: rgba(244, 67, 54, 0.5); color: #f44336; }
+.logout-btn:hover, .logout-btn:active {
+    background: rgba(244, 67, 54, 0.1);
+    border-color: #f44336;
+}
+
+/* =================================
+   Match Management 页面样式
+   ================================= */
+
+/* 快速操作按钮 */
+.quick-actions {
+    margin-bottom: 32px;
+}
+
+/* 赛事分组区域 */
+.match-section {
+    margin-bottom: 32px;
+}
+
+.match-section .section-title {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 12px;
+    color: #ff9f40;
+    text-align: center;
+    margin-bottom: 16px;
+    padding: 8px 16px;
+    background: rgba(255, 159, 64, 0.1);
+    border-radius: 8px;
+    border: 1px solid rgba(255, 159, 64, 0.3);
+}
+
+/* 赛事卡片 */
+.match-card {
+    background: rgba(255, 255, 255, 0.95);
+    border: 2px solid #e0e0e0;
+    border-radius: 12px;
+    padding: 16px;
+    margin-bottom: 16px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.match-card.user-match-card {
+    border-color: #4CAF50;
+    background: rgba(76, 175, 80, 0.05);
+}
+
+.match-card.registering-card {
+    border-color: #ff9f40;
+    background: rgba(255, 159, 64, 0.05);
+}
+
+.match-card.upcoming-card {
+    border-color: #2196F3;
+    background: rgba(33, 150, 243, 0.05);
+}
+
+.match-card.ongoing-card {
+    border-color: #f44336;
+    background: rgba(244, 67, 54, 0.05);
+}
+
+.match-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 12px;
+}
+
+.match-name {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 14px;
+    color: #333;
+    margin: 0;
+    flex: 1;
+    line-height: 1.4;
+}
+
+/* 状态徽章 */
+.status-badge {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 8px;
+    padding: 4px 8px;
+    border-radius: 4px;
+    text-transform: uppercase;
+    white-space: nowrap;
+}
+
+.status-preparing {
+    background: rgba(33, 150, 243, 0.2);
+    color: #2196F3;
+    border: 1px solid #2196F3;
+}
+
+.status-registering {
+    background: rgba(255, 159, 64, 0.2);
+    color: #ff9f40;
+    border: 1px solid #ff9f40;
+}
+
+.status-ongoing {
+    background: rgba(244, 67, 54, 0.2);
+    color: #f44336;
+    border: 1px solid #f44336;
+}
+
+.status-finished {
+    background: rgba(158, 158, 158, 0.2);
+    color: #9e9e9e;
+    border: 1px solid #9e9e9e;
+}
+
+/* 赛事信息 */
+.match-info {
+    margin-bottom: 12px;
+}
+
+.match-detail {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 9px;
+    color: #666;
+    margin: 4px 0;
+}
+
+.match-description {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 8px;
+    color: #666;
+    line-height: 1.4;
+    margin: 8px 0;
+    padding: 8px;
+    background: rgba(0, 0, 0, 0.05);
+    border-radius: 4px;
+}
+
+/* 赛事操作按钮 */
+.match-actions {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+}
+
+.action-btn {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 8px;
+    padding: 6px 12px;
+    border-radius: 4px;
+    text-decoration: none;
+    border: none;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    white-space: nowrap;
+}
+
+.details-btn {
+    background: rgba(33, 150, 243, 0.1);
+    color: #2196F3;
+    border: 1px solid #2196F3;
+}
+
+.join-btn {
+    background: rgba(76, 175, 80, 0.1);
+    color: #4CAF50;
+    border: 1px solid #4CAF50;
+}
+
+.leave-btn {
+    background: rgba(244, 67, 54, 0.1);
+    color: #f44336;
+    border: 1px solid #f44336;
+}
+
+.joined-btn, .disabled-btn {
+    background: rgba(158, 158, 158, 0.1);
+    color: #9e9e9e;
+    border: 1px solid #9e9e9e;
+    cursor: not-allowed;
+}
+
+.action-btn:hover:not(.disabled-btn):not(.joined-btn) {
+    transform: translateY(-1px);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+/* 空状态 */
+.empty-state {
+    text-align: center;
+    padding: 40px 20px;
+}
+
+.empty-icon {
+    font-size: 48px;
+    margin-bottom: 16px;
+}
+
+.empty-title {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 16px;
+    color: #333;
+    margin-bottom: 12px;
+}
+
+.empty-desc {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 10px;
+    color: #666;
+    margin-bottom: 24px;
+    line-height: 1.5;
+}
+
+/* =================================
+   Match Detail 页面样式
+   ================================= */
+
+.match-detail-header {
+    text-align: center;
+    background: rgba(255, 255, 255, 0.95);
+    border: 3px solid #ff9f40;
+    border-radius: 16px;
+    padding: 20px;
+    box-shadow: 0 8px 24px rgba(255, 159, 64, 0.3);
+}
+
+.match-title {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 18px;
+    background: linear-gradient(45deg, #ff9f40, #87ceeb, #ffd700);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin: 0 0 12px 0;
+    line-height: 1.3;
+}
+
+.match-info-card .match-basic-info {
+    margin-top: 16px;
+}
+
+.info-row {
+    display: flex;
+    justify-content: space-between;
+    margin: 8px 0;
+    align-items: center;
+}
+
+.info-label {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 9px;
+    color: #666;
+    flex: 0 0 auto;
+}
+
+.info-value {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 10px;
+    color: #333;
+    text-align: right;
+    flex: 1;
+    margin-left: 12px;
+}
+
+/* 加入/离开区域 */
+.join-section {
+    margin: 24px 0;
+}
+
+.join-form-card, .participant-card, .notice-card {
+    background: rgba(255, 255, 255, 0.95);
+    border: 2px solid;
+    border-radius: 12px;
+    padding: 20px;
+    text-align: center;
+}
+
+.join-form-card {
+    border-color: #4CAF50;
+    background: rgba(76, 175, 80, 0.05);
+}
+
+.participant-card {
+    border-color: #ff9f40;
+    background: rgba(255, 159, 64, 0.05);
+}
+
+.notice-card {
+    border-color: #9e9e9e;
+    background: rgba(158, 158, 158, 0.05);
+}
+
+.join-title {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 12px;
+    color: #333;
+    margin-bottom: 16px;
+}
+
+.participant-icon, .notice-icon {
+    font-size: 32px;
+    margin-bottom: 12px;
+}
+
+/* 表单样式 */
+.form-group {
+    margin-bottom: 16px;
+    text-align: left;
+}
+
+.form-group label {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 9px;
+    color: #666;
+    display: block;
+    margin-bottom: 8px;
+}
+
+.form-input {
+    width: 100%;
+    padding: 12px 16px;
+    border: 2px solid #e0e0e0;
+    border-radius: 8px;
+    font-family: 'Press Start 2P', monospace;
+    font-size: 10px;
+    background: rgba(255, 255, 255, 0.9);
+    box-sizing: border-box;
+}
+
+.form-input:focus {
+    outline: none;
+    border-color: #ff9f40;
+    box-shadow: 0 0 0 2px rgba(255, 159, 64, 0.2);
+}
+
+/* 参与者网格 */
+.participants-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 12px;
+}
+
+.participant-card-small {
+    background: rgba(255, 255, 255, 0.9);
+    border: 2px solid #e0e0e0;
+    border-radius: 8px;
+    padding: 12px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.participant-info {
+    flex: 1;
+}
+
+.participant-name {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 11px;
+    color: #333;
+    display: block;
+    margin-bottom: 4px;
+}
+
+.participant-stats {
+    display: flex;
+    gap: 8px;
+}
+
+.participant-stats span {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 8px;
+    color: #666;
+}
+
+.creator-badge {
+    font-size: 16px;
+}
+
+/* 比赛列表样式 */
+.games-section {
+    margin-top: 32px;
+}
+
+.round-section {
+    margin-bottom: 24px;
+}
+
+.round-title {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 11px;
+    color: #ff9f40;
+    text-align: center;
+    margin-bottom: 12px;
+    padding: 6px 12px;
+    background: rgba(255, 159, 64, 0.1);
+    border-radius: 6px;
+    border: 1px solid rgba(255, 159, 64, 0.3);
+}
+
+.game-card {
+    background: rgba(255, 255, 255, 0.9);
+    border: 2px solid #e0e0e0;
+    border-radius: 8px;
+    padding: 12px;
+    margin-bottom: 12px;
+}
+
+.game-header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 8px;
+}
+
+.game-type, .game-time {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 8px;
+    color: #666;
+}
+
+.game-players {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 12px 0;
+    text-align: center;
+}
+
+.team {
+    flex: 1;
+    font-family: 'Press Start 2P', monospace;
+    font-size: 10px;
+    color: #333;
+}
+
+.vs-divider {
+    margin: 0 16px;
+    font-family: 'Press Start 2P', monospace;
+    font-size: 8px;
+    color: #ff9f40;
+    font-weight: bold;
+}
+
+.game-result, .game-status, .game-court {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 9px;
+    text-align: center;
+    margin: 8px 0;
+}
+
+.game-result .score {
+    color: #333;
+    font-weight: bold;
+}
+
+.winner-badge {
+    display: block;
+    margin-top: 4px;
+    color: #4CAF50;
+}
+
+.game-status {
+    color: #666;
+}
+
+.game-court {
+    color: #666;
+}
+
+/* =================================
+   Create Match 页面样式
+   ================================= */
+
+.create-form-card {
+    background: rgba(255, 255, 255, 0.95);
+    border: 3px solid #ff9f40;
+    border-radius: 16px;
+    padding: 20px;
+    box-shadow: 0 8px 24px rgba(255, 159, 64, 0.3);
+    margin-bottom: 24px;
+}
+
+.form-section {
+    margin-bottom: 24px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid rgba(255, 159, 64, 0.2);
+}
+
+.form-section:last-child {
+    border-bottom: none;
+    margin-bottom: 0;
+}
+
+.form-section .section-title {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 11px;
+    color: #ff9f40;
+    margin-bottom: 16px;
+}
+
+.form-label {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 9px;
+    color: #666;
+    display: block;
+    margin-bottom: 8px;
+}
+
+.form-input, .form-textarea, .form-select {
+    width: 100%;
+    padding: 12px 16px;
+    border: 2px solid #e0e0e0;
+    border-radius: 8px;
+    font-family: 'Press Start 2P', monospace;
+    font-size: 10px;
+    background: rgba(255, 255, 255, 0.9);
+    box-sizing: border-box;
+}
+
+.form-textarea {
+    resize: vertical;
+    min-height: 80px;
+}
+
+.form-input:focus, .form-textarea:focus, .form-select:focus {
+    outline: none;
+    border-color: #ff9f40;
+    box-shadow: 0 0 0 2px rgba(255, 159, 64, 0.2);
+}
+
+.form-row {
+    display: flex;
+    gap: 12px;
+}
+
+.half-width {
+    flex: 1;
+}
+
+.form-hint {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 7px;
+    color: #999;
+    margin-top: 4px;
+    line-height: 1.4;
+}
+
+.datetime-input {
+    min-height: 44px;
+}
+
+.form-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-top: 20px;
+}
+
+.submit-btn {
+    order: 1;
+}
+
+.cancel-btn {
+    order: 2;
+}
+
+/* 创建提示 */
+.create-tips {
+    margin-top: 24px;
+}
+
+.tip-card {
+    background: rgba(255, 159, 64, 0.1);
+    border: 1px solid rgba(255, 159, 64, 0.3);
+    border-radius: 12px;
+    padding: 16px;
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+}
+
+.tip-icon {
+    font-size: 20px;
+    flex-shrink: 0;
+}
+
+.tip-content h4 {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 10px;
+    color: #333;
+    margin: 0 0 8px 0;
+}
+
+.tip-list {
+    margin: 0;
+    padding-left: 16px;
+}
+
+.tip-list li {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 8px;
+    color: #666;
+    line-height: 1.4;
+    margin-bottom: 4px;
+}
+
+.inline-form {
+    display: inline;
+}
+
+/* 居中表单 */
+.centered-form {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 16px;
+}
+
+/* 横屏适配 */
+@media (orientation: landscape) and (max-height: 500px) {
+    .mobile-header {
+        margin: 20px 0 30px 0;
+    }
+    
+    .mobile-main {
+        gap: 20px;
+    }
+    
+    .mobile-feature-card {
+        padding: 20px 16px;
+    }
+    
+    .feature-icon {
+        font-size: 32px;
+        margin-bottom: 8px;
+    }
+    
+    .player-stats-grid {
+        grid-template-columns: repeat(4, 1fr);
+        gap: 8px;
+    }
+    
+    .match-countdown {
+        gap: 20px;
+    }
+    
+    .participants-grid {
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    }
+    
+    .form-actions {
+        flex-direction: row;
+    }
+}

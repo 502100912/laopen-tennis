@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>➕ Create Match</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+    <link rel="stylesheet" href="/static/css/mobile.css">
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+</head>
+<body class="mobile-body">
+    <div class="mobile-container">
+        <!-- Flash Messages -->
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                <div class="mobile-flash-messages">
+                    {% for category, message in messages %}
+                        <div class="mobile-flash-message mobile-flash-{{ category }}">
+                            {{ message }}
+                        </div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        {% endwith %}
+
+        <!-- 头部区域 -->
+        <header class="mobile-header">
+            <div class="mobile-logo">
+                <h1 class="mobile-title">➕ Create Match</h1>
+                <p class="mobile-subtitle">New Tournament</p>
+            </div>
+        </header>
+
+        <!-- 主要内容区域 -->
+        <main class="mobile-main">
+            <div class="create-form-card">
+                <form method="POST" class="create-match-form">
+                    <!-- 基本信息 -->
+                    <div class="form-section">
+                        <h3 class="section-title">📝 Basic Information</h3>
+                        
+                        <div class="form-group">
+                            <label for="name" class="form-label">Match Name *</label>
+                            <input type="text" id="name" name="name" required 
+                                   placeholder="e.g., Spring Tennis Tournament 2024"
+                                   class="form-input" maxlength="100">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="description" class="form-label">Description</label>
+                            <textarea id="description" name="description" 
+                                      placeholder="Describe your tournament..."
+                                      class="form-textarea" rows="3"></textarea>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="location" class="form-label">Location *</label>
+                            <input type="text" id="location" name="location" required 
+                                   placeholder="e.g., Central Tennis Club, Court 1-4"
+                                   class="form-input" maxlength="200">
+                        </div>
+                    </div>
+
+                    <!-- 时间设置 -->
+                    <div class="form-section">
+                        <h3 class="section-title">⏰ Schedule</h3>
+                        
+                        <div class="form-group">
+                            <label for="start_datetime" class="form-label">Start Date & Time *</label>
+                            <input type="datetime-local" id="start_datetime" name="start_datetime" required 
+                                   class="form-input datetime-input">
+                        </div>
+                    </div>
+
+                    <!-- 赛事设置 -->
+                    <div class="form-section">
+                        <h3 class="section-title">⚙️ Match Settings</h3>
+                        
+                        <div class="form-row">
+                            <div class="form-group half-width">
+                                <label for="match_type" class="form-label">Match Type</label>
+                                <select id="match_type" name="match_type" class="form-select">
+                                    <option value="singles">Singles</option>
+                                    <option value="doubles">Doubles</option>
+                                    <option value="mixed">Mixed</option>
+                                </select>
+                            </div>
+                            
+                            <div class="form-group half-width">
+                                <label for="tournament_type" class="form-label">Tournament Format</label>
+                                <select id="tournament_type" name="tournament_type" class="form-select">
+                                    <option value="knockout">Knockout</option>
+                                    <option value="round_robin">Round Robin</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="max_participants" class="form-label">Max Participants</label>
+                            <select id="max_participants" name="max_participants" class="form-select">
+                                <option value="8">8 Players</option>
+                                <option value="16">16 Players</option>
+                                <option value="32" selected>32 Players</option>
+                                <option value="64">64 Players</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="password" class="form-label">Join Password *</label>
+                            <input type="text" id="password" name="password" required 
+                                   placeholder="Password for players to join"
+                                   class="form-input" maxlength="50">
+                            <div class="form-hint">Players will need this password to join your match</div>
+                        </div>
+                    </div>
+
+                    <!-- 提交按钮 -->
+                    <div class="form-actions">
+                        <button type="submit" class="mobile-btn mobile-btn-primary submit-btn">
+                            <span class="btn-icon">🚀</span>
+                            <span class="btn-text">Create Match</span>
+                        </button>
+                        
+                        <a href="{{ url_for('match_mgmt.match_list') }}" class="mobile-btn mobile-btn-secondary cancel-btn">
+                            <span class="btn-icon">❌</span>
+                            <span class="btn-text">Cancel</span>
+                        </a>
+                    </div>
+                </form>
+            </div>
+
+            <!-- 创建提示 -->
+            <div class="create-tips">
+                <div class="tip-card">
+                    <div class="tip-icon">💡</div>
+                    <div class="tip-content">
+                        <h4>Tips for Creating Matches</h4>
+                        <ul class="tip-list">
+                            <li>Choose a clear, descriptive name</li>
+                            <li>Set the start time at least 2 hours from now</li>
+                            <li>Share the password with intended participants</li>
+                            <li>Consider the skill levels of players</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <!-- 底部导航 -->
+        <footer class="mobile-footer">
+            <div class="footer-nav">
+                <a href="{{ url_for('match_mgmt.match_list') }}" class="footer-btn back-btn">
+                    <span class="btn-icon">🔙</span>
+                    <span>Back to List</span>
+                </a>
+                <a href="{{ url_for('tennis.dashboard') }}" class="footer-btn home-btn">
+                    <span class="btn-icon">🏠</span>
+                    <span>Dashboard</span>
+                </a>
+            </div>
+            <div class="footer-text">Create New Match</div>
+        </footer>
+
+        <!-- 背景装饰 -->
+        <div class="mobile-bg-effects">
+            <div class="bg-pixel bg-pixel-1">➕</div>
+            <div class="bg-pixel bg-pixel-2">⚡</div>
+            <div class="bg-pixel bg-pixel-3">🏆</div>
+        </div>
+    </div>
+    
+    <!-- 设置最小日期时间为当前时间 -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const now = new Date();
+            // 设置为2小时后
+            now.setHours(now.getHours() + 2);
+            
+            // 格式化为 datetime-local 输入所需的格式
+            const year = now.getFullYear();
+            const month = String(now.getMonth() + 1).padStart(2, '0');
+            const day = String(now.getDate()).padStart(2, '0');
+            const hours = String(now.getHours()).padStart(2, '0');
+            const minutes = String(now.getMinutes()).padStart(2, '0');
+            
+            const minDateTime = `${year}-${month}-${day}T${hours}:${minutes}`;
+            
+            const datetimeInput = document.getElementById('start_datetime');
+            datetimeInput.min = minDateTime;
+            datetimeInput.value = minDateTime;
+        });
+    </script>
+    <script src="/static/js/mobile.js"></script>
+</body>
+</html>

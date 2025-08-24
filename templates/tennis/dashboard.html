@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>🎾 Tennis Dashboard</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+    <link rel="stylesheet" href="/static/css/mobile.css">
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+</head>
+<body class="mobile-body">
+    <div class="mobile-container">
+        <!-- Flash Messages -->
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                <div class="mobile-flash-messages">
+                    {% for category, message in messages %}
+                        <div class="mobile-flash-message mobile-flash-{{ category }}">
+                            {{ message }}
+                        </div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        {% endwith %}
+
+        <!-- 头部区域 - 用户信息和战绩统一框架 -->
+        <header class="mobile-header">
+            <div class="player-profile-card">
+                <!-- 用户基本信息 -->
+                <div class="player-info">
+                    <h1 class="player-name">🎾 {{ current_user.nickname }}</h1>
+                    <p class="player-title">Tennis Player</p>
+                </div>
+                
+                <!-- 用户统计信息 -->
+                <div class="player-stats-grid">
+                    <div class="stat-item rank-stat">
+                        <span class="stat-icon">🏅</span>
+                        <span class="stat-value">#{{ current_user.current_rank }}</span>
+                        <span class="stat-label">Rank</span>
+                    </div>
+                    <div class="stat-item rating-stat">
+                        <span class="stat-icon">⚡</span>
+                        <span class="stat-value">{{ current_user.rating }}</span>
+                        <span class="stat-label">Rating</span>
+                    </div>
+                    <div class="stat-item record-stat">
+                        <span class="stat-icon">🏆</span>
+                        <span class="stat-value">{{ current_user.total_wins }}/{{ current_user.total_losses }}</span>
+                        <span class="stat-label">W/L</span>
+                    </div>
+                    <div class="stat-item winrate-stat">
+                        <span class="stat-icon">📈</span>
+                        <span class="stat-value">{{ current_user.win_rate }}%</span>
+                        <span class="stat-label">Win Rate</span>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- 主要内容区域 -->
+        <main class="mobile-main">
+            <!-- 下一场比赛倒计时卡片 -->
+            <div class="mobile-feature-card next-match-card">
+                <div class="feature-icon">🏆</div>
+                {% if next_match %}
+                    <h2 class="feature-title">Next Match</h2>
+                    <div class="match-info">
+                        <div class="opponent-info">
+                            <span class="vs-label">VS</span>
+                            <span class="opponent-name">
+                                {% for opponent in next_match.get_opponent_team(current_user.id) %}
+                                    {{ opponent.nickname }}{% if not loop.last %} & {% endif %}
+                                {% endfor %}
+                            </span>
+                        </div>
+                        {% if next_match.scheduled_time %}
+                            <div class="match-countdown" id="countdown">
+                                <div class="countdown-item">
+                                    <span class="countdown-value" id="days">0</span>
+                                    <span class="countdown-label">Days</span>
+                                </div>
+                                <div class="countdown-item">
+                                    <span class="countdown-value" id="hours">0</span>
+                                    <span class="countdown-label">Hours</span>
+                                </div>
+                                <div class="countdown-item">
+                                    <span class="countdown-value" id="minutes">0</span>
+                                    <span class="countdown-label">Min</span>
+                                </div>
+                            </div>
+                            <div class="match-details">
+                                <div class="match-time">📅 {{ next_match.scheduled_time.strftime('%Y-%m-%d %H:%M') }}</div>
+                                {% if next_match.court %}
+                                    <div class="match-court">🏟️ {{ next_match.court }}</div>
+                                {% endif %}
+                            </div>
+                        {% endif %}
+                    </div>
+                {% else %}
+                    <h2 class="feature-title">No Upcoming Matches</h2>
+                    <p class="feature-desc">Ready to join a new game? 🎯</p>
+                {% endif %}
+            </div>
+
+            <!-- 功能区域按钮 -->
+            <div class="mobile-actions">
+                <div class="action-grid">
+                    <a href="{{ url_for('tennis.matches') }}" class="mobile-btn mobile-btn-primary">
+                        <span class="btn-icon">🎾</span>
+                        <span class="btn-text">Manage</span>
+                        <span class="btn-subtitle">Join Matches</span>
+                    </a>
+                    
+                    <a href="{{ url_for('tennis.create_match') }}" class="mobile-btn mobile-btn-secondary">
+                        <span class="btn-icon">➕</span>
+                        <span class="btn-text">Create</span>
+                        <span class="btn-subtitle">New Match</span>
+                    </a>
+                </div>
+                
+                <div class="action-grid">
+                    <a href="#" class="mobile-btn mobile-btn-tertiary">
+                        <span class="btn-icon">📊</span>
+                        <span class="btn-text">History</span>
+                        <span class="btn-subtitle">Past Matches</span>
+                    </a>
+                    
+                    <a href="{{ url_for('tennis.rankings') }}" class="mobile-btn mobile-btn-tertiary">
+                        <span class="btn-icon">🏅</span>
+                        <span class="btn-text">Ranking</span>
+                        <span class="btn-subtitle">Leaderboard</span>
+                    </a>
+                </div>
+            </div>
+
+            {% if recent_matches %}
+            <!-- 最近比赛结果 -->
+            <div class="recent-matches">
+                <h3 class="section-title">Recent Results</h3>
+                {% for match in recent_matches[:2] %}
+                <div class="match-result-card">
+                    <div class="match-opponent">
+                        <span class="vs-text">VS</span>
+                        <span class="opponent-name">
+                            {% for opponent in match.get_opponent_team(current_user.id) %}
+                                {{ opponent.nickname }}{% if not loop.last %} & {% endif %}
+                            {% endfor %}
+                        </span>
+                    </div>
+                    <div class="match-outcome">
+                        {% set result = match.get_result_for_user(current_user.id) %}
+                        {% if result == 'win' %}
+                            <span class="result-badge win">🎉 WIN</span>
+                        {% elif result == 'loss' %}
+                            <span class="result-badge loss">😔 LOSS</span>
+                        {% else %}
+                            <span class="result-badge draw">🤝 DRAW</span>
+                        {% endif %}
+                    </div>
+                    <div class="match-date">{{ match.updated_at.strftime('%m/%d') }}</div>
+                </div>
+                {% endfor %}
+            </div>
+            {% endif %}
+        </main>
+
+        <!-- 底部导航 -->
+        <footer class="mobile-footer">
+            <div class="footer-nav">
+                <a href="{{ url_for('auth.logout') }}" class="footer-btn logout-btn">
+                    <span class="btn-icon">👋</span>
+                    <span>Logout</span>
+                </a>
+                <a href="{{ url_for('main.index') }}" class="footer-btn home-btn">
+                    <span class="btn-icon">🏠</span>
+                    <span>Home</span>
+                </a>
+            </div>
+            <div class="footer-text">Tennis Dashboard</div>
+        </footer>
+
+        <!-- 背景装饰 -->
+        <div class="mobile-bg-effects">
+            <div class="bg-pixel bg-pixel-1">🎾</div>
+            <div class="bg-pixel bg-pixel-2">⚡</div>
+            <div class="bg-pixel bg-pixel-3">🏆</div>
+        </div>
+    </div>
+    
+    <!-- 倒计时脚本 -->
+    {% if next_match and next_match.scheduled_time %}
+    <script>
+        // 倒计时功能
+        const matchDate = new Date('{{ next_match.scheduled_time.isoformat() }}');
+        
+        function updateCountdown() {
+            const now = new Date();
+            const diff = matchDate - now;
+            
+            if (diff <= 0) {
+                document.getElementById('countdown').innerHTML = '<div class="countdown-finished">🚀 Match Time!</div>';
+                return;
+            }
+            
+            const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+            
+            document.getElementById('days').textContent = days;
+            document.getElementById('hours').textContent = hours;
+            document.getElementById('minutes').textContent = minutes;
+        }
+        
+        updateCountdown();
+        setInterval(updateCountdown, 60000); // 每分钟更新一次
+    </script>
+    {% endif %}
+    
+    <script src="/static/js/mobile.js"></script>
+</body>
+</html>

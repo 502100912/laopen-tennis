@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>🎾 LaOpen Tennis</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+    <link rel="stylesheet" href="/static/css/mobile.css">
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+</head>
+<body class="mobile-body">
+    <div class="mobile-container">
+        <!-- Flash Messages -->
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                <div class="mobile-flash-messages">
+                    {% for category, message in messages %}
+                        <div class="mobile-flash-message mobile-flash-{{ category }}">
+                            {{ message }}
+                        </div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        {% endwith %}
+
+        <!-- 头部区域 -->
+        <header class="mobile-header">
+            <div class="mobile-logo clickable-area" onclick="handleQuickAccess()">
+                <h1 class="mobile-title">🎾 LaOpen</h1>
+                <p class="mobile-subtitle">Tennis Club</p>
+            </div>
+        </header>
+
+        <!-- 主要内容区域 -->
+        <main class="mobile-main">
+            <!-- 功能介绍卡片 -->
+            <div class="mobile-feature-card clickable-area" onclick="handleQuickAccess()">
+                <div class="feature-icon">🏆</div>
+                <h2 class="feature-title">Join Tennis Club</h2>
+                <p class="feature-desc">Track matches • View rankings • Manage tournaments</p>
+                <div class="quick-access-hint">Tap to Enter</div>
+            </div>
+
+            <!-- 行动按钮区域 -->
+            <div class="mobile-actions">
+                <a href="/register" class="mobile-btn mobile-btn-primary">
+                    <span class="btn-icon">🎯</span>
+                    <span class="btn-text">Start Playing</span>
+                    <span class="btn-subtitle">Create Account</span>
+                </a>
+                
+                <a href="/login" class="mobile-btn mobile-btn-secondary">
+                    <span class="btn-icon">🔑</span>
+                    <span class="btn-text">Login</span>
+                    <span class="btn-subtitle">Welcome Back</span>
+                </a>
+            </div>
+
+            <!-- 快速功能预览 -->
+            <div class="mobile-preview">
+                <div class="preview-item">
+                    <div class="preview-icon">⚡</div>
+                    <span>Join Matches</span>
+                </div>
+                <div class="preview-item">
+                    <div class="preview-icon">🏅</div>
+                    <span>Rankings</span>
+                </div>
+                <div class="preview-item">
+                    <div class="preview-icon">📊</div>
+                    <span>Stats</span>
+                </div>
+            </div>
+        </main>
+
+        <!-- 底部信息 -->
+        <footer class="mobile-footer">
+            <div class="footer-text">All rights reserved by CAD</div>
+        </footer>
+
+        <!-- 背景装饰 -->
+        <div class="mobile-bg-effects">
+            <div class="bg-pixel bg-pixel-1">🎾</div>
+            <div class="bg-pixel bg-pixel-2">⚡</div>
+            <div class="bg-pixel bg-pixel-3">🏆</div>
+        </div>
+    </div>
+    
+    <script>
+        // 处理快速访问点击事件
+        function handleQuickAccess() {
+            // 检查用户是否已登录 - 简单检查是否有认证相关的cookie或元素
+            fetch('/tennis/dashboard', { method: 'HEAD' })
+                .then(response => {
+                    if (response.status === 200) {
+                        // 已登录，跳转到仪表板
+                        window.location.href = '/tennis/dashboard';
+                    } else {
+                        // 未登录，跳转到登录页面
+                        window.location.href = '/login';
+                    }
+                })
+                .catch(() => {
+                    // 出现错误，默认跳转到登录页面
+                    window.location.href = '/login';
+                });
+        }
+        
+        // 为可点击区域添加触摸反馈
+        document.addEventListener('DOMContentLoaded', function() {
+            const clickableAreas = document.querySelectorAll('.clickable-area');
+            
+            clickableAreas.forEach(area => {
+                area.addEventListener('touchstart', function() {
+                    this.style.transform = 'scale(0.98)';
+                    this.style.opacity = '0.8';
+                });
+                
+                area.addEventListener('touchend', function() {
+                    this.style.transform = 'scale(1)';
+                    this.style.opacity = '1';
+                });
+                
+                area.addEventListener('touchcancel', function() {
+                    this.style.transform = 'scale(1)';
+                    this.style.opacity = '1';
+                });
+            });
+        });
+    </script>
+    <script src="/static/js/mobile.js"></script>
+</body>
+</html>

@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>🏆 {{ match.name }}</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+    <link rel="stylesheet" href="/static/css/mobile.css">
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+</head>
+<body class="mobile-body">
+    <div class="mobile-container">
+        <!-- Flash Messages -->
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                <div class="mobile-flash-messages">
+                    {% for category, message in messages %}
+                        <div class="mobile-flash-message mobile-flash-{{ category }}">
+                            {{ message }}
+                        </div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        {% endwith %}
+
+        <!-- 头部区域 -->
+        <header class="mobile-header">
+            <div class="match-detail-header">
+                <h1 class="match-title">{{ match.name }}</h1>
+                <span class="status-badge status-{{ match.status }}">{{ match.status.title() }}</span>
+            </div>
+        </header>
+
+        <!-- 主要内容区域 -->
+        <main class="mobile-main">
+            <!-- 赛事基本信息卡片 -->
+            <div class="mobile-feature-card match-info-card">
+                <div class="feature-icon">🏆</div>
+                <div class="match-basic-info">
+                    <div class="info-row">
+                        <span class="info-label">📍 Location:</span>
+                        <span class="info-value">{{ match.location }}</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">📅 Start Time:</span>
+                        <span class="info-value">{{ match.start_datetime.strftime('%Y-%m-%d %H:%M') }}</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">🎾 Type:</span>
+                        <span class="info-value">{{ match.match_type.title() }}</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">🏁 Format:</span>
+                        <span class="info-value">{{ match.tournament_type.title() }}</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">👥 Players:</span>
+                        <span class="info-value">{{ match.participant_count }}/{{ match.max_participants }}</span>
+                    </div>
+                </div>
+                
+                {% if match.description %}
+                <div class="match-description">
+                    <h3>About This Match</h3>
+                    <p>{{ match.description }}</p>
+                </div>
+                {% endif %}
+            </div>
+
+            <!-- 参与/离开按钮区域 -->
+            {% if match.status == 'registering' %}
+            <div class="join-section">
+                {% if not is_participant %}
+                    {% if match.can_register %}
+                    <div class="join-form-card">
+                        <h3 class="join-title">🎯 Join This Match</h3>
+                        <form method="POST" action="{{ url_for('match_mgmt.join_match', match_id=match.id) }}" class="join-form">
+                            <div class="form-group">
+                                <label for="password">Enter Match Password:</label>
+                                <input type="password" id="password" name="password" required 
+                                       placeholder="Match password..." class="form-input">
+                            </div>
+                            <button type="submit" class="mobile-btn mobile-btn-primary join-submit">
+                                <span class="btn-icon">⚡</span>
+                                <span class="btn-text">Join Match</span>
+                            </button>
+                        </form>
+                    </div>
+                    {% else %}
+                    <div class="notice-card">
+                        <div class="notice-icon">🔒</div>
+                        <h3>Registration Closed</h3>
+                        <p>This match is full or registration has ended.</p>
+                    </div>
+                    {% endif %}
+                {% else %}
+                <div class="participant-card">
+                    <div class="participant-icon">✅</div>
+                    <p>You have successfully joined this match.</p>
+                    <form method="POST" action="{{ url_for('match_mgmt.leave_match', match_id=match.id) }}" 
+                          class="leave-form centered-form" onsubmit="return confirm('Are you sure you want to leave this match?')">
+                        <button type="submit" class="mobile-btn mobile-btn-secondary">
+                            <span class="btn-icon">👋</span>
+                            <span class="btn-text">Leave Match</span>
+                        </button>
+                    </form>
+                </div>
+                {% endif %}
+            </div>
+            {% endif %}
+
+            <!-- 参与者列表 -->
+            {% if participants %}
+            <div class="participants-section">
+                <h2 class="section-title">👥 Participants ({{ participants|length }})</h2>
+                <div class="participants-grid">
+                    {% for participant in participants %}
+                    <div class="participant-card-small">
+                        <div class="participant-info">
+                            <span class="participant-name">{{ participant.nickname }}</span>
+                            <div class="participant-stats">
+                                <span class="rating">⚡{{ participant.rating }}</span>
+                                <span class="rank">#{{ participant.current_rank }}</span>
+                            </div>
+                        </div>
+                        {% if participant == match.creator %}
+                        <div class="creator-badge">👑</div>
+                        {% endif %}
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+            {% endif %}
+
+            <!-- 比赛列表 -->
+            {% if games_by_round %}
+            <div class="games-section">
+                <h2 class="section-title">🎯 Match Schedule</h2>
+                {% for round_name, games in games_by_round.items() %}
+                <div class="round-section">
+                    <h3 class="round-title">{{ round_name }}</h3>
+                    {% for game in games %}
+                    <div class="game-card">
+                        <div class="game-header">
+                            <span class="game-type">{{ game.game_type.title() }}</span>
+                            {% if game.scheduled_time %}
+                            <span class="game-time">{{ game.scheduled_time.strftime('%m/%d %H:%M') }}</span>
+                            {% endif %}
+                        </div>
+                        
+                        <div class="game-players">
+                            <div class="team team1">
+                                {% for player in game.team1_players %}
+                                <span class="player-name">{{ player.nickname }}</span>
+                                {% endfor %}
+                            </div>
+                            <div class="vs-divider">VS</div>
+                            <div class="team team2">
+                                {% for player in game.team2_players %}
+                                <span class="player-name">{{ player.nickname }}</span>
+                                {% endfor %}
+                            </div>
+                        </div>
+                        
+                        {% if game.is_finished %}
+                        <div class="game-result">
+                            <span class="score">{{ game.score_summary }}</span>
+                            {% if game.winner_team == 1 %}
+                            <span class="winner-badge">Team 1 Wins</span>
+                            {% elif game.winner_team == 2 %}
+                            <span class="winner-badge">Team 2 Wins</span>
+                            {% endif %}
+                        </div>
+                        {% else %}
+                        <div class="game-status status-{{ game.status }}">
+                            {{ game.status.title() }}
+                        </div>
+                        {% endif %}
+                        
+                        {% if game.court %}
+                        <div class="game-court">🏟️ {{ game.court }}</div>
+                        {% endif %}
+                    </div>
+                    {% endfor %}
+                </div>
+                {% endfor %}
+            </div>
+            {% endif %}
+        </main>
+
+        <!-- 底部导航 -->
+        <footer class="mobile-footer">
+            <div class="footer-nav">
+                <a href="{{ url_for('match_mgmt.match_list') }}" class="footer-btn back-btn">
+                    <span class="btn-icon">🔙</span>
+                    <span>Back to List</span>
+                </a>
+                <a href="{{ url_for('tennis.dashboard') }}" class="footer-btn home-btn">
+                    <span class="btn-icon">🏠</span>
+                    <span>Dashboard</span>
+                </a>
+            </div>
+            <div class="footer-text">{{ match.name }}</div>
+        </footer>
+
+        <!-- 背景装饰 -->
+        <div class="mobile-bg-effects">
+            <div class="bg-pixel bg-pixel-1">🏆</div>
+            <div class="bg-pixel bg-pixel-2">⚡</div>
+            <div class="bg-pixel bg-pixel-3">🎾</div>
+        </div>
+    </div>
+    
+    <script src="/static/js/mobile.js"></script>
+</body>
+</html>
