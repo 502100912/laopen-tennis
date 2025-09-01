@@ -89,6 +89,7 @@ class Match(db.Model):
     # 比赛规则设置 (新增)
     court_count = db.Column(db.Integer, default=1)                # 场地数量
     round_count = db.Column(db.Integer, default=1)                # 比赛轮数
+    court_list = db.Column(db.Text, nullable=True)                # 场地列表，JSON格式存储
     
     # 状态管理
     status = db.Column(db.String(20), default='preparing')        # preparing/registering/ongoing/finished/cancelled
@@ -125,6 +126,26 @@ class Match(db.Model):
         if self.registration_deadline and datetime.utcnow() > self.registration_deadline:
             return False
         return True
+    
+    def get_courts(self):
+        """获取场地列表"""
+        if self.court_list:
+            import json
+            try:
+                return json.loads(self.court_list)
+            except:
+                return []
+        return []
+    
+    def set_courts(self, courts):
+        """设置场地列表"""
+        import json
+        if isinstance(courts, list):
+            self.court_list = json.dumps(courts)
+            self.court_count = len(courts)
+        else:
+            self.court_list = None
+            self.court_count = 1
     
     def is_participant(self, user):
         """检查用户是否已参与"""

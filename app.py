@@ -31,7 +31,7 @@ def create_app():
         # 确保instance目录存在
         instance_dir = os.path.join(basedir, 'instance')
         os.makedirs(instance_dir, exist_ok=True)
-        app.config['SQLALCHEMY_DATABASE_URI'] = f'sqlite:///{basedir}/instance/laopen.db'
+        app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + os.path.join(basedir, 'instance', 'laopen.db')
     
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
     app.config['SQLALCHEMY_ECHO'] = os.environ.get('FLASK_ENV') != 'production'
@@ -59,7 +59,7 @@ def init_directories():
     directories = ['templates', 'static/css', 'static/js', 'instance']
     for directory in directories:
         os.makedirs(directory, exist_ok=True)
-        print(f"✅ 目录创建成功：{directory}")
+        print("✅ 目录创建成功：" + directory)
 
 if __name__ == '__main__':
     # 创建必要的目录
@@ -77,11 +77,11 @@ if __name__ == '__main__':
         
         if debug:
             print("🎉 开发环境启动成功！")
-            print(f"📱 请在浏览器中访问：http://localhost:{port}")
+            print("📱 请在浏览器中访问：http://localhost:" + str(port))
             print("⚡ 按 Ctrl+C 停止服务器")
         else:
             print("🎉 生产环境启动成功！")
-            print(f"🌍 应用运行在端口：{port}")
+            print("🌍 应用运行在端口：" + str(port))
         
         print("=" * 50)
         app.run(debug=debug, host='0.0.0.0', port=port)

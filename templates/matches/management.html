@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>🎾 Match Management</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+    <link rel="stylesheet" href="/static/css/mobile.css">
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Press Start 2P', monospace;
+            margin: 0;
+            padding: 0;
+            background: #f8fafc;
+        }
+        
+        .management-container {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+        
+        .management-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 15px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        .header-title {
+            color: white;
+            font-size: 14px;
+            margin: 0 0 15px 0;
+            text-align: center;
+            font-family: 'Press Start 2P', monospace;
+        }
+        
+        .header-nav {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            flex-wrap: nowrap;
+            align-items: center;
+        }
+        
+        .nav-link {
+            display: inline-block;
+            padding: 8px 15px;
+            color: rgba(255,255,255,0.9);
+            text-decoration: none;
+            border-radius: 6px;
+            transition: all 0.3s ease;
+            font-size: 9px;
+            font-family: 'Press Start 2P', monospace;
+            background: rgba(255,255,255,0.1);
+            border: 2px solid transparent;
+            white-space: nowrap;
+        }
+        
+        .nav-link:hover {
+            background: rgba(255,255,255,0.2);
+            color: white;
+            transform: translateY(-2px);
+            border-color: rgba(255,255,255,0.3);
+        }
+        
+        .nav-link.active {
+            background: rgba(255,255,255,0.3);
+            color: white;
+            font-weight: bold;
+            border-color: rgba(255,255,255,0.5);
+        }
+        
+        .nav-icon {
+            margin-right: 8px;
+            font-size: 12px;
+        }
+        
+        .management-content {
+            flex: 1;
+            background: #f8fafc;
+            overflow: visible;
+        }
+        
+        .content-frame {
+            width: 100%;
+            height: calc(100vh - 90px);
+            border: none;
+            background: white;
+            overflow: auto;
+        }
+        
+        @media (max-width: 768px) {
+            .management-header {
+                padding: 10px;
+            }
+            
+            .header-title {
+                font-size: 12px;
+                margin-bottom: 10px;
+            }
+            
+            .header-nav {
+                gap: 8px;
+            }
+            
+            .nav-link {
+                padding: 6px 10px;
+                font-size: 8px;
+            }
+            
+            .nav-icon {
+                margin-right: 4px;
+                font-size: 8px;
+            }
+            
+            .content-frame {
+                height: calc(100vh - 70px);
+                overflow: auto;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .header-nav {
+                gap: 5px;
+                justify-content: space-around;
+            }
+            
+            .nav-link {
+                padding: 5px 8px;
+                font-size: 7px;
+                border-radius: 4px;
+            }
+            
+            .nav-icon {
+                margin-right: 3px;
+                font-size: 7px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="management-container">
+        <!-- 顶部导航 -->
+        <div class="management-header">
+            <div class="header-title">🎾 Match Management</div>
+            <div class="header-nav">
+                <a href="#" class="nav-link active" data-url="{{ url_for('match_mgmt.create_match') }}" onclick="loadContentFromData(this)">
+                    <span class="nav-icon">➕</span>
+                    <span>Create Match</span>
+                </a>
+                <a href="#" class="nav-link" data-url="{{ url_for('tennis.generate_matchup') }}" onclick="loadContentFromData(this)">
+                    <span class="nav-icon">🎯</span>
+                    <span>Generate Matchup</span>
+                </a>
+                <a href="{{ url_for('tennis.dashboard') }}" class="nav-link">
+                    <span class="nav-icon">🏠</span>
+                    <span>Back to Dashboard</span>
+                </a>
+            </div>
+        </div>
+        
+        <!-- 内容区域 -->
+        <div class="management-content">
+            <iframe id="contentFrame" class="content-frame" src="{{ url_for('match_mgmt.create_match') }}" scrolling="yes"></iframe>
+        </div>
+    </div>
+
+    <script>
+        function loadContentFromData(linkElement) {
+            const url = linkElement.getAttribute('data-url');
+            loadContent(url, linkElement);
+        }
+        
+        function loadContent(url, linkElement) {
+            // 如果是返回Dashboard的链接，直接跳转
+            if (url.includes('/tennis/dashboard')) {
+                window.location.href = url;
+                return;
+            }
+            
+            // 更新iframe内容
+            document.getElementById('contentFrame').src = url;
+            
+            // 更新导航激活状态
+            document.querySelectorAll('.nav-link').forEach(link => {
+                link.classList.remove('active');
+            });
+            linkElement.classList.add('active');
+        }
+
+        // iframe加载完成提示（移除了高度调整代码以避免滚动冲突）
+        document.getElementById('contentFrame').onload = function() {
+            console.log('Content loaded successfully');
+        };
+    </script>
+</body>
+</html>
